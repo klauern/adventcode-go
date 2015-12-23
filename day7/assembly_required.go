@@ -9,6 +9,7 @@ import (
 )
 
 var wires map[string]string
+//var totalLookupCount int = 0
 
 func init() {
 	wires = make(map[string]string)
@@ -26,42 +27,38 @@ func main() {
 		line := scanner.Text()
 		args := strings.Split(line, " -> ")
 		// fill graph
-		wires[args[1]] = args[0]
+		wires[strings.Trim(args[1], " ")] = strings.Trim(args[0], " ")
 	}
-	fmt.Println(deriveValue(wires["a"]))
+	//for k, _ := range wires {
+		//fmt.Printf("Derive %v\n", k)
+		//fmt.Printf("%v: %v\n", k, deriveValue(k))
+	//}
+	fmt.Println(deriveValue("a"))
 }
 
-func deriveValue(wire string) uint16 {
-	fmt.Printf("deriveValue(%v)\n", wire)
-	switch string(wire[0]) {
+func deriveValue(key string) uint16 {
+	fmt.Printf("DeriveValue(%v)\n", key)
+	switch string(rune(key[0])) {
 	case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
-		fmt.Println("Is Num")
-		val, _ := strconv.ParseUint(wire, 10, 16)
-		fmt.Printf("Value found: %v\n", val)
+		val, _ := strconv.ParseUint(key, 10, 16)
 		return uint16(val)
 	default:
-		return deriveInstruction(wire)
+		return deriveInstruction(key)
 	}
-	fmt.Printf("Not found: %v\n", wire)
 	panic("not found")
-	return uint16(0)
 }
 
-func deriveInstruction(place string) uint16 {
-	fmt.Printf("deriveInstruction(%v)\n", place)
-	fmt.Printf("Deriving Instruction %v\n", place)
-	instruction := wires[place]
-	fmt.Printf("Instruciton %v lookup is %v\n", place, instruction)
-	pieces := strings.Split(instruction, " ")
-	fmt.Printf("pieces split is %+v\n", pieces)
-	//value := uint16(0)
+func deriveInstruction(key string) uint16 {
+	fmt.Printf("deriveInstruction(%v)\n", key)
+	pieces := strings.Split(wires[key], " ")
 	switch len(pieces) {
 	case 1:
-		fmt.Printf("Length 1: %v\n", pieces[0])
 		return deriveValue(pieces[0])
 	case 2:
 		if pieces[0] == "NOT" {
 			return ^deriveValue(pieces[1])
+		} else {
+			panic(pieces)
 		}
 	case 3:
 		first := deriveValue(pieces[0])
@@ -77,7 +74,5 @@ func deriveInstruction(place string) uint16 {
 			return first | second
 		}
 	}
-
 	panic("Not supposed to fall through")
-	return uint16(0)
 }
