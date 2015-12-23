@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 var wires map[string]string
@@ -28,16 +28,19 @@ func main() {
 		// fill graph
 		wires[args[1]] = args[0]
 	}
-	fmt.Println(deriveInstruction(wires["a"]))
+	fmt.Println(deriveValue(wires["a"]))
 }
 
 func deriveValue(wire string) uint16 {
-	val, err := strconv.ParseUint(wire, 10, 16)
-	if err != nil {
-		deriveInstruction(wire)
-	} else {
+	fmt.Printf("deriveValue(%v)\n", wire)
+	switch string(wire[0]) {
+	case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+		fmt.Println("Is Num")
+		val, _ := strconv.ParseUint(wire, 10, 16)
 		fmt.Printf("Value found: %v\n", val)
 		return uint16(val)
+	default:
+		return deriveInstruction(wire)
 	}
 	fmt.Printf("Not found: %v\n", wire)
 	panic("not found")
@@ -45,12 +48,16 @@ func deriveValue(wire string) uint16 {
 }
 
 func deriveInstruction(place string) uint16 {
+	fmt.Printf("deriveInstruction(%v)\n", place)
+	fmt.Printf("Deriving Instruction %v\n", place)
 	instruction := wires[place]
+	fmt.Printf("Instruciton %v lookup is %v\n", place, instruction)
 	pieces := strings.Split(instruction, " ")
 	fmt.Printf("pieces split is %+v\n", pieces)
+	//value := uint16(0)
 	switch len(pieces) {
 	case 1:
-		fmt.Printf("Deriving %v\n", pieces[0])
+		fmt.Printf("Length 1: %v\n", pieces[0])
 		return deriveValue(pieces[0])
 	case 2:
 		if pieces[0] == "NOT" {
@@ -70,7 +77,7 @@ func deriveInstruction(place string) uint16 {
 			return first | second
 		}
 	}
-	fmt.Printf("Not found: %v", place)
-	panic("not found")
+
+	panic("Not supposed to fall through")
 	return uint16(0)
 }
