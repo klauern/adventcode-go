@@ -2,11 +2,11 @@ package main
 
 import (
 	"bufio"
-	"os"
-	"strings"
 	"fmt"
-	"strconv"
 	"math"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -26,8 +26,8 @@ func main() {
 		lenw := length * width
 		widhei := width * height
 		heilen := height * length
-		total :=  2*lenw + 2*widhei + 2*heilen
-		arr := []int {
+		total := 2*lenw + 2*widhei + 2*heilen
+		arr := []int{
 			lenw,
 			widhei,
 			heilen,
@@ -35,7 +35,7 @@ func main() {
 		// find smallest side
 		minarea := math.MaxInt64
 		for _, value := range arr {
-			if  value < minarea {
+			if value < minarea {
 				minarea = value
 			}
 		}
