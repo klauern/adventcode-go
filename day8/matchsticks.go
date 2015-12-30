@@ -7,8 +7,8 @@ func main() {
 }
 
 type CharCount struct {
-	codeChars int
-	memChars  int64
+	codeChars int64
+	memChars  int
 }
 
 func CharCountReplacer() *strings.Replacer {
@@ -18,7 +18,7 @@ func CharCountReplacer() *strings.Replacer {
 func CountChars(line string) *CharCount {
 	lineReader := strings.NewReader(line)
 	return &CharCount{
-		codeChars: lineReader.Len(),
-		memChars:  lineReader.Size(),
+		codeChars: lineReader.Size(),
+		memChars:  lineReader.Len(),
 	}
 }
