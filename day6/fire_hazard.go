@@ -76,24 +76,24 @@ func getRange(through string) *lightRange {
 }
 
 func turnOffLights(lightSlice *lightRange) {
-	for i := lightSlice.startx; i < lightSlice.endx; i++ {
-		for j := lightSlice.starty; j < lightSlice.endy; j++ {
+	for i := lightSlice.startx; i <= lightSlice.endx; i++ {
+		for j := lightSlice.starty; j <= lightSlice.endy; j++ {
 			lights[i][j] = false
 		}
 	}
 }
 
 func turnOnLights(lightSlice *lightRange) {
-	for i := lightSlice.startx; i < lightSlice.endx; i++ {
-		for j := lightSlice.starty; j < lightSlice.endy; j++ {
+	for i := lightSlice.startx; i <= lightSlice.endx; i++ {
+		for j := lightSlice.starty; j <= lightSlice.endy; j++ {
 			lights[i][j] = true
 		}
 	}
 }
 
 func toggleLights(lightSlice *lightRange) {
-	for i := lightSlice.startx; i < lightSlice.endx; i++ {
-		for j := lightSlice.starty; j < lightSlice.endy; j++ {
+	for i := lightSlice.startx; i <= lightSlice.endx; i++ {
+		for j := lightSlice.starty; j <= lightSlice.endy; j++ {
 			lights[i][j] = !lights[i][j]
 		}
 	}
