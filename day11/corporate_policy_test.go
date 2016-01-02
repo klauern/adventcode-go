@@ -2,10 +2,6 @@ package main
 
 import "testing"
 
-func TestNextPassword(t *testing.T) {
-
-}
-
 var incrementTests = []struct {
 	in  string
 	out string
@@ -14,14 +10,6 @@ var incrementTests = []struct {
 	{"az", "ba"},
 	{"abc", "abd"},
 	{"abz", "aca"},
-}
-
-var nextPasswordTests = []struct {
-	in  string
-	out string
-}{
-	{"abcdefgh", "abcdffaa"},
-	{"ghijklmn", "ghjaabcc"},
 }
 
 func TestIncrement(t *testing.T) {
@@ -37,14 +25,15 @@ var letterPairs = []struct {
 	in  string
 	out bool
 }{
-	{"aa", true},
+	{"aabb", true},
+	{"aaab", false},
 	{"abccdeff", true},
 	{"abcdefg", false},
 }
 
 func TestContainsLetterPair(t *testing.T) {
 	for _, tt := range letterPairs {
-		pass := ContainsLetterPair(tt.in)
+		pass := ContainsTwoLetterPairs(tt.in)
 		if pass != tt.out {
 			t.Errorf("ContainsLetterPair(\"%s\"): \tWanted %6s, Got %-6s", tt.in, tt.out, pass)
 		}
@@ -52,9 +41,9 @@ func TestContainsLetterPair(t *testing.T) {
 }
 
 var invalidStrings = []struct {
-in string
-out bool
-} {
+	in  string
+	out bool
+}{
 	{"abcdefghi", true},
 	{"hijklmmn", true},
 	{"abbceffg", false},
@@ -65,6 +54,43 @@ func TestInvalidStrings(t *testing.T) {
 		pass := ContainsInvalidChars(tt.in)
 		if pass != tt.out {
 			t.Errorf("ContainsInvalidChars(\"%s\"): \tWanted %6s, Got %-6s", tt.in, tt.out, pass)
+		}
+	}
+}
+
+var increasingLetters = []struct {
+	in  string
+	out bool
+}{
+	{"abc", true},
+	{"febecde", true},
+	{"hijklmmn", true},
+	{"abbcegjk", false},
+	{"abbceffg", false},
+}
+
+func TestIncreasingLetters(t *testing.T) {
+	for _, tt := range increasingLetters {
+		pass := HasIncreasingLetters(tt.in)
+		if pass != tt.out {
+			t.Errorf("HasIncreasingLetters(\"%s\"): \tWanted %v, Got %v", tt.in, tt.out, pass)
+		}
+	}
+}
+
+var nextPasswords = []struct {
+	in  string
+	out string
+}{
+	{"abcdefgh", "abcdffaa"},
+	{"ghijklmn", "ghjaabcc"},
+}
+
+func TestNextPassword(t *testing.T) {
+	for _, tt := range nextPasswords {
+		pass := NextPassword(tt.in)
+		if pass != tt.out {
+			t.Errorf("NextPassword(\"%s\"): \tWanted %s, Got %s", tt.in, tt.out, pass)
 		}
 	}
 }
