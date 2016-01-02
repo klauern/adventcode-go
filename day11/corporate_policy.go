@@ -1,8 +1,8 @@
 package main
 
 import (
-	"strings"
 	"fmt"
+	"strings"
 )
 
 func main() {
@@ -11,7 +11,7 @@ func main() {
 
 func NextPassword(current string) string {
 	password := current
-	for  {
+	for {
 		password = Increment(password)
 		if HasIncreasingLetters(password) && !ContainsInvalidChars(password) && ContainsTwoLetterPairs(password) {
 			return password
@@ -23,7 +23,6 @@ func NextPassword(current string) string {
 func HasIncreasingLetters(password string) bool {
 	out := []rune(password)
 	for i := 0; i <= len(out)-3; i++ {
-		// && out[i+2]+1 == out[i+3]
 		if out[i]+1 == out[i+1] && out[i+1]+1 == out[i+2] {
 			return true
 		}
