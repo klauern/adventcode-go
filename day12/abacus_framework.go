@@ -19,6 +19,14 @@ func main() {
 	fmt.Println("Output for input is ", Sum(f))
 }
 
+func SumString(input string) int {
+	var f interface{}
+	json.Unmarshal([]byte(input), &f)
+
+	PrintOutput(f)
+	return Sum(f)
+}
+
 
 func PrintOutput(input interface{}) {
 	m := input.(map[string]interface{})
