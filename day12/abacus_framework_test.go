@@ -20,7 +20,7 @@ func TestEquality(t *testing.T) {
 	for _, tt := range equalityTests {
 		sum := SumString(tt.in)
 		if sum != tt.out {
-			t.Errorf("SumString(\"%s\"): \tWanted %6s, Got %-6s", tt.in, tt.out, sum)
+			t.Errorf("SumString(\"%s\"): \tWanted %v, Got %v", tt.in, tt.out, sum)
 		}
 	}
 }

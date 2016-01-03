@@ -23,7 +23,7 @@ func SumString(input string) int {
 	var f interface{}
 	json.Unmarshal([]byte(input), &f)
 
-	PrintOutput(f)
+	//PrintOutput(f)
 	return Sum(f)
 }
 
@@ -58,6 +58,10 @@ func SumList(input []interface{}) int {
 			total += v.(int)
 		case float64:
 			total += int(v.(float64))
+		case []interface{}:
+			total += SumList(v.([]interface{}))
+		case map[string]interface{}:
+			total += SumMap(v.(map[string]interface{}))
 		}
 	}
 	return total
