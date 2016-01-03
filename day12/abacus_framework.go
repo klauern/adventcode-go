@@ -46,7 +46,10 @@ func SumList(input []interface{}) int {
 	for _, v := range input {
 		switch v.(type) {
 		case int:
+			fmt.Println("INT ADDING")
 			total += v.(int)
+		case float64:
+			total += int(v.(float64))
 		}
 	}
 	return total
@@ -58,14 +61,16 @@ func SumMap(input map[string]interface{}) int {
 		switch vv := v.(type) {
 		case int:
 			total += vv
+		case float64:
+			total += int(vv)
 		case []interface{}:
-			for _, vvv := range vv {
-				total += SumList(vvv.([]interface{}))
-			}
+			total += SumList(v.([]interface{}))
 		case map[string]interface{}:
 			total += SumMap(v.(map[string]interface{}))
+		case string:
+			continue
 		default:
-			panic(fmt.Sprintf("Can't evaluate %v for %v as %v", k, v, vv))
+			panic(fmt.Sprintf("Can't evaluate %v for %v as %T", k, v, vv))
 		}
 	}
 	return total
